@@ -15,7 +15,7 @@
                 <a href="#">{{ ucwords(str_replace('-',' ',Request::segment($i)))}}</a> /
                 @else {{ucwords(str_replace('-',' ',Request::segment($i)))}}
                 @endif
-            @endfor
+              @endfor
               </li>
               <!-- <li class="breadcrumb-item active">Dashboard</li> -->
             </ol>
