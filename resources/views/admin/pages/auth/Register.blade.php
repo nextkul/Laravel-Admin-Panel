@@ -3,10 +3,10 @@
 @section('content')
 <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="../../index2.html" class="h1"><b>Admin</b>LTE</a>
+      <a href="#" class="h1"><b>{{ config('settings.site.app.appname') }}</b></a>
     </div>
     <div class="card-body">
-      <p class="login-box-msg">Register a new membership</p>
+      <p class="login-box-msg">{{ __('Register a new membership') }}</p>
 
       <form action="#" method="post">
         <div class="input-group mb-3">
@@ -56,11 +56,11 @@
       <div class="social-auth-links text-center">
         <a href="#" class="btn btn-block btn-primary">
           <i class="fab fa-sign-up-alt mr-2"></i>
-          Sign up
+          {{ __('Register') }}
         </a>
       </div>
 
-      <a href="{{ route('admin.get.login') }}" class="text-center">I already have a membership</a>
+      <a href="{{ route('login') }}" class="text-center">{{ __('Already registered?') }}</a>
     </div>
     <!-- /.form-box -->
   </div><!-- /.card -->
