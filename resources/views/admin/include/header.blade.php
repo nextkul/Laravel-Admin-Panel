@@ -125,6 +125,7 @@
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
               <li><a href="#" class="dropdown-item">Profile</a></li>
               <li><a href="#" class="dropdown-item">Settings</a></li>
+              <li><a href="#" class="dropdown-item">Logout</a></li>
             </ul>
           </li>
     </ul>
