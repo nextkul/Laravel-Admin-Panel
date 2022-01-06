@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class Register extends Component
+class Input extends Component
 {
     /**
      * Create a new component instance.
@@ -31,6 +31,6 @@ class Register extends Component
      */
     public function render()
     {
-        return view('components.register');
+        return view('components.input');
     }
 }
