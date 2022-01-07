@@ -51,8 +51,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
         
-        connectify('success', 'We will Miss You 😭', 'Logged Out Successfully');
-
+        notify()->success('We will Miss You 😭', 'Logged Out Successfully');
+        
         return redirect('/login');
     }
 }
