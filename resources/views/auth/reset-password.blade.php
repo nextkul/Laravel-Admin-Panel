@@ -17,7 +17,7 @@
         <x-button> {{ __('Change password') }} </x-button>
       </form>
       <p class="mt-3 mb-1">
-        <a href="{{ route('admin.get.login') }}">Login</a>
+        <a href="{{ route('login') }}">Login</a>
       </p>
     </div>
     <!-- /.login-card-body -->

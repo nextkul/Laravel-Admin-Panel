@@ -51,13 +51,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/tables/simple.html" class="nav-link">
+                <a href="{{ route('user.get.index') }}" class="nav-link">
                   <i class="fas fa-angle-double-right nav-icon"></i>
                   <p>All User</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/tables/data.html" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="fas fa-angle-double-right nav-icon"></i>
                   <p>Add User</p>
                 </a>

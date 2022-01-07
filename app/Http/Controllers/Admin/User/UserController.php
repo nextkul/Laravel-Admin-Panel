@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
 
-class UserCntroller extends Controller
+class UserController extends Controller
 {
     public function index()
     {
         $Users = User::latest()->get();
-        return view('admin.users.index',['Users'=>$Users]);
+        return view('admin.pages.users.index',['Users'=>$Users]);
       
     }
     public function show($id)

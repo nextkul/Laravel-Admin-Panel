@@ -48,7 +48,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-
+        smilify('success', 'User Registered Successfully 🔥');
         return redirect(RouteServiceProvider::HOME);
     }
 }
