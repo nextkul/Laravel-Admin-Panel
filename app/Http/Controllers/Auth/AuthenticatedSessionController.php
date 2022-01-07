@@ -31,6 +31,8 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+       
+        connectify('success', 'Welcome 😊', 'Logged In Successfully');
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
@@ -48,7 +50,9 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
+        
+        connectify('success', 'We will Miss You 😭', 'Logged Out Successfully');
 
-        return redirect('/');
+        return redirect('/login');
     }
 }

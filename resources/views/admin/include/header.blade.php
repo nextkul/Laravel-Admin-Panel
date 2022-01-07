@@ -121,11 +121,24 @@
       </li>
       <li class="nav-item dropdown">
       
-            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">{{ config('settings.site.header.name') }}</a>
+            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">{{ Auth::user()->name }}</a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
               <li><a href="#" class="dropdown-item">Profile</a></li>
               <li><a href="#" class="dropdown-item">Settings</a></li>
-              <li><a href="#" class="dropdown-item">Logout</a></li>
+              <li>
+                <!-- <a href="#" class="dropdown-item"> -->
+                 <!-- Authentication -->
+                 <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <a href="route('logout')"  class="dropdown-item"
+                            onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+                </form>
+            
+            <!-- </a> -->
+            </li>
             </ul>
           </li>
     </ul>

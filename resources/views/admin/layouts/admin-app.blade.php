@@ -14,10 +14,12 @@
   <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="{{ asset('admin/dist/img/nk-admin.png') }}" alt="AdminLTELogo" height="60" width="60">
   </div>
+    <x:notify-messages />
      @include('admin.include.header') 
      @include('admin.include.sidebar') 
      <!-- Content Wrapper. Contains page content -->
      <div class="content-wrapper">
+     
         @include('admin.include.breadcrumb') 
 
            @yield('content')       <!--Include Startkit Content-->

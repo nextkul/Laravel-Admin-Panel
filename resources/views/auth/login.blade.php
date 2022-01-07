@@ -24,7 +24,7 @@
               </div>
             </div>
           </div>
-          
+  
           <x-button> {{ __('Log in') }} </x-button>
       </form>
       <p class="mb-1">

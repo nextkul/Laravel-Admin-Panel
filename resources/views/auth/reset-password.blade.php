@@ -11,7 +11,7 @@
         @csrf
          <!-- Password Reset Token -->
         <input type="hidden" name="token" value="{{ $request->route('token') }}">
-        <x-input type="email" name="email" placeholder="Enter Email" class="fas fa-user" :value="old('email', $request->email)" />
+        <x-input type="email" name="email" placeholder="Enter Email" class="fas fa-user" />
         <x-input type="password" name="password" placeholder="Enter Password" class="fas fa-lock" />
         <x-input type="password" name="password_confirmation" placeholder="Confirm Password" class="fas fa-lock" />
         <x-button> {{ __('Change password') }} </x-button>
