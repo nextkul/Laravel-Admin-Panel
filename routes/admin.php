@@ -23,7 +23,7 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin','middleware' => ['auth'
     })->name('admin.get.dashboard');
     
     /* -------------------User----------- */
-    Route::prefix('user')->group(function () {
+    Route::prefix('users')->group(function () {
         Route::get('/', 'User\UserController@index')->name('user.get.index');
         Route::post('create', 'User\UserController@create')->name('user.get.create');
         Route::get('show/{id}', 'User\UserController@show')->name('user.get.show');

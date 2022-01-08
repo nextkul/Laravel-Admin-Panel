@@ -16,7 +16,7 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title"><b>All User Details</b></h3>
-                <button type="button" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Add item</button>
+                <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-default"><i class="fas fa-plus"></i> Add item</button>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -37,12 +37,24 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-
-                          @if($user->email_verified_at)
+                        <td>
+                        @if($user->email_verified_at  != null)
+                            <a href="{{ route('user.get.unverified',['id'=>Crypt::encrypt($user->id)]) }}"
+                               class="btn btn-xs btn-success">
+                                <b> Verified </b>
+                           </a>
+                            @else
+                            <a href="{{ route('user.get.verified',['id'=>Crypt::encrypt($user->id)]) }}"
+                                class="btn btn-xs btn-danger">
+                               <b>Unverified</b>
+                            </a>
+                        @endif
+                     </td>
+                          <!-- @if($user->email_verified_at)
                          <td><a href="" class="btn btn-xs btn-success"><b>Verified</b></a></td>
                           @else
                           <td><a href="" class="btn btn-xs btn-danger"><b>Not Verified</b></a></td>
-                          @endif
+                          @endif -->
                         <td>
                           <div class="btn-group">
                               <button type="button" class="btn btn-primary btn-xs"><b>Active</b></button>
@@ -56,11 +68,12 @@
                           </div>
                       </td>
                         <td class="align-middle">
-                          <div class="btn-group btn-group-sm">
-                            <a href="#" class="btn btn-info" title="View"><i class="fas fa-eye"></i></a>
-                            <a href="#" class="btn btn-primary" title="Edit"><i class="fas fa-edit"></i></a>
-                            <a href="#" class="btn btn-danger" title="Delete"><i class="fas fa-trash"></i></a>
-                          </div>
+                            <div class="btn-group btn-group-sm">
+                              <x-action class="btn btn-info" title="View" icon="fas fa-eye" />
+                              <x-action class="btn btn-primary" title="Edit" icon="fas fa-edit" />
+                              <x-action class="btn btn-danger" title="Delete" icon="fas fa-trash" />
+                              
+                            </div>
                         </td>
                       </tr>
                     @endforeach  
@@ -78,6 +91,30 @@
       <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+    <div class="modal fade" id="modal-default">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Default Modal</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+            <x-input type="email" name="email" placeholder="Enter Email" class="fas fa-user" />
+            <x-input type="password" name="password" placeholder="Enter Password" class="fas fa-lock" />
+            
+           </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
 @endsection
 {{-- Page js files --}}
 @push('page-script')

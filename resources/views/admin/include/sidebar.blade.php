@@ -5,7 +5,6 @@
       <img src="{{ asset('admin/dist/img/nk-admin.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">{{ config('settings.site.app.appname') }}</span>
     </a>
-
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
@@ -41,8 +40,8 @@
               <p> Dashboard </p>
             </a>
           </li>
-          <li class="nav-item {{ Request::is('admin/user*') ? 'menu-is-opening menu-open' : '' }}" >
-            <a href="#" class="nav-link {{ Request::is('admin/user') ? 'active' : '' }}">
+          <li class="nav-item {{ Request::is('admin/users*') ? 'menu-is-opening menu-open' : '' }}" >
+            <a href="#" class="nav-link {{ Request::is('admin/users') ? 'active' : '' }}">
               <i class="nav-icon fas fa-table"></i>
               <p>
                 Users<i class="fas fa-angle-left right"></i>
@@ -50,7 +49,7 @@
             </a>
             <ul class="nav nav-treeview ">
               <li class="nav-item">
-                <a href="{{ route('user.get.index') }}" class="nav-link {{ Request::is('admin/user') ? 'active' : '' }}">
+                <a href="{{ route('user.get.index') }}" class="nav-link {{ Request::is('admin/users') ? 'active' : '' }}">
                   <i class="fas fa-angle-double-right nav-icon"></i>
                   <p>All User</p>
                 </a>

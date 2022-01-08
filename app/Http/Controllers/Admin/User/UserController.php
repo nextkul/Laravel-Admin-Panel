@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Crypt;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -211,7 +213,7 @@ class UserController extends Controller
         try {
             $decrypted  = Crypt::decrypt($id);
             $verifiedUser = User::haveId($decrypted)->update([
-                'email_verification' =>1
+                'email_verified_at' => Carbon::now()
             ]);
             if($verifiedUser){
                 smilify('success', 'User Email Verified Successfully 😊');
@@ -233,7 +235,7 @@ class UserController extends Controller
         try {
             $decrypted      = Crypt::decrypt($id);
             $unverifiedUser   = User::haveId($decrypted)->update([
-                'email_verification' =>0
+                'email_verified_at' => null
             ]);
             if($unverifiedUser){
                 smilify('success', 'User Email Unverified Successfully');
