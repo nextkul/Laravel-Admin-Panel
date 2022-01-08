@@ -41,14 +41,14 @@
               <p> Dashboard </p>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item {{ Request::is('admin/user*') ? 'menu-is-opening menu-open' : '' }}" >
             <a href="#" class="nav-link {{ Request::is('admin/user') ? 'active' : '' }}">
               <i class="nav-icon fas fa-table"></i>
               <p>
                 Users<i class="fas fa-angle-left right"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview {{ Request::is('admin/user') ? 'd-block' : '' }}" >
+            <ul class="nav nav-treeview ">
               <li class="nav-item">
                 <a href="{{ route('user.get.index') }}" class="nav-link {{ Request::is('admin/user') ? 'active' : '' }}">
                   <i class="fas fa-angle-double-right nav-icon"></i>
