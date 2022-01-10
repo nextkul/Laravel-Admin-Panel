@@ -50,11 +50,6 @@
                             </a>
                         @endif
                      </td>
-                          <!-- @if($user->email_verified_at)
-                         <td><a href="" class="btn btn-xs btn-success"><b>Verified</b></a></td>
-                          @else
-                          <td><a href="" class="btn btn-xs btn-danger"><b>Not Verified</b></a></td>
-                          @endif -->
                         <td>
                           <div class="btn-group">
                               <button type="button" class="btn btn-primary btn-xs"><b>Active</b></button>
@@ -132,6 +127,11 @@
 <script src="{{ asset('admin/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ asset('admin/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 <script>
+  $('#modal-default').modal({
+    backdrop: 'static',
+    keyboard: false
+})
+
   $(function () {
     $("#example1").DataTable({
       "responsive": true, "lengthChange": false, "autoWidth": false,
