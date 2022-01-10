@@ -7,13 +7,30 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 use Carbon\Carbon;
+use DataTables;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $Users = User::latest()->get();
-        return view('admin.pages.users.index',['Users'=>$Users]);
+        if ($request->ajax()) {
+            $data =  User::latest()->get();
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+     
+                           $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
+       
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+        
+        return view('admin.pages.users.index');
+
+        // $Users = User::latest()->get();
+        // return view('admin.pages.users.index',['Users'=>$Users]);
       
     }
     public function show($id)

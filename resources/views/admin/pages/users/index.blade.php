@@ -26,52 +26,13 @@
                     <th>No.</th>
                     <th>Name</th>
                     <th>Email(s)</th>
-                    <th>Email verified</th>
+                    <!-- <th>Email verified</th> -->
                     <th>Status</th>
                     <th>action</th>
                   </tr>
                   </thead>
                   <tbody>
-                    @foreach($Users as $user)
-                      <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>
-                        @if($user->email_verified_at  != null)
-                            <a href="{{ route('user.get.unverified',['id'=>Crypt::encrypt($user->id)]) }}"
-                               class="btn btn-xs btn-success">
-                                <b> Verified </b>
-                           </a>
-                            @else
-                            <a href="{{ route('user.get.verified',['id'=>Crypt::encrypt($user->id)]) }}"
-                                class="btn btn-xs btn-danger">
-                               <b>Unverified</b>
-                            </a>
-                        @endif
-                     </td>
-                        <td>
-                          <div class="btn-group">
-                              <button type="button" class="btn btn-primary btn-xs"><b>Active</b></button>
-                              <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon btn-xs" data-toggle="dropdown">
-                              </button>
-                              <div class="dropdown-menu" role="menu">
-                                <a class="dropdown-item" href="#">Active</a>
-                                <a class="dropdown-item" href="#">InActive</a>
-                                <a class="dropdown-item" href="#">Pending</a>
-                              </div>
-                          </div>
-                      </td>
-                        <td class="align-middle">
-                            <div class="btn-group btn-group-sm">
-                              <x-action class="btn btn-info" title="View" icon="fas fa-eye" />
-                              <x-action class="btn btn-primary" title="Edit" icon="fas fa-edit" />
-                              <x-action class="btn btn-danger" title="Delete" icon="fas fa-trash" />
-                              
-                            </div>
-                        </td>
-                      </tr>
-                    @endforeach  
+                  
                   </tbody>
                 </table>
               </div>
@@ -86,7 +47,7 @@
       <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-    <div class="modal fade" id="modal-default">
+    <div class="modal fade" id="modal-default" >
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -127,25 +88,39 @@
 <script src="{{ asset('admin/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ asset('admin/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 <script>
-  $('#modal-default').modal({
-    backdrop: 'static',
-    keyboard: false
-})
-
+  $(document).ready(function() {
+    $("#modal-default").modal({
+        show: false,
+        backdrop: 'static'
+    });
+    $("#click-me").click(function() {
+       $("#modal-default").modal("show");             
+    });
+});
+// ==========Datatable=============
   $(function () {
     $("#example1").DataTable({
       "responsive": true, "lengthChange": false, "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
   });
 </script>
+<!-- ======================= -->
+<script type="text/javascript">
+        $(document).ready(function() {
+            var table = $('#example1').DataTable({
+                processing: true,
+                serverSide: true,
+                "bDestroy": true,
+                ajax: "{{ route('user.get.index') }}",
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'email', name: 'email'},
+                    {data: 'phone', name: 'phone'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                ]
+            });
+        });
+      </script>
 @endpush
