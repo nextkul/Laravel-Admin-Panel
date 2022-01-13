@@ -26,7 +26,7 @@
                     <th>No.</th>
                     <th>Name</th>
                     <th>Email(s)</th>
-                    <!-- <th>Email verified</th> -->
+                    <th>Email verified</th>
                     <th>Status</th>
                     <th>action</th>
                   </tr>
@@ -47,23 +47,25 @@
       <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-    <div class="modal fade" id="modal-default" >
-        <div class="modal-dialog">
+    <!-- ========View User Details========== -->
+    @foreach ($data as $item)
+    <div class="modal fade outer-click-dissabled" id="view-user{{$item->id}}" >
+        <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Default Modal</h4>
+              <h4 class="modal-title font-weight-bold">Show User Details</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
-            <x-input type="email" name="email" placeholder="Enter Email" class="fas fa-user" />
-            <x-input type="password" name="password" placeholder="Enter Password" class="fas fa-lock" />
-            
+            <div class="modal-body model-fh">
+            <p>{{ $item->name }}</p>
+            <p>{{ $item->email }}</p>
+            <p>{{ $item->status }}</p>
            </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Download Pdf</button>
             </div>
           </div>
           <!-- /.modal-content -->
@@ -71,6 +73,34 @@
         <!-- /.modal-dialog -->
       </div>
       <!-- /.modal -->
+      @endforeach
+        <!-- ========Edit User========== -->
+    @foreach ($data as $item)
+    <div class="modal fade outer-click-dissabled" id="edit-user{{$item->id}}" >
+        <div class="modal-dialog ">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title font-weight-bold">Show User Details</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body model-fh">
+            <x-input type="email" name="email" placeholder="{{ $item->email }}" class="fas fa-user" />
+           <x-input type="password" name="password" placeholder="Enter Password" class="fas fa-lock" />
+
+           </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+      @endforeach
 @endsection
 {{-- Page js files --}}
 @push('page-script')
@@ -89,7 +119,7 @@
 <script src="{{ asset('admin/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 <script>
   $(document).ready(function() {
-    $("#modal-default").modal({
+    $(".outer-click-dissabled").modal({
         show: false,
         backdrop: 'static'
     });
@@ -114,13 +144,20 @@
                 "bDestroy": true,
                 ajax: "{{ route('user.get.index') }}",
                 columns: [
-                    {data: 'id', name: 'id'},
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     {data: 'name', name: 'name'},
                     {data: 'email', name: 'email'},
-                    {data: 'phone', name: 'phone'},
+                    {data: 'email_verified_at', name: 'email_verified_at', orderable: false, searchable: false},
+                    {data: 'status', name: 'status', orderable: false, searchable: false},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
             });
         });
       </script>
+<script>
+function myFunction()
+{
+  return confirm("Are you sure you want to delete?");
+}
+</script>
 @endpush

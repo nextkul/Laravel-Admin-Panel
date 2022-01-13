@@ -12,27 +12,63 @@ use DataTables;
 class UserController extends Controller
 {
     public function index(Request $request)
-    {
+    {   
+        $data =  User::latest()->get();
         if ($request->ajax()) {
-            $data =  User::latest()->get();
             return Datatables::of($data)
                     ->addIndexColumn()
-                    ->addColumn('action', function($row){
-     
-                           $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-       
-                            return $btn;
+                    ->addColumn('email_verified_at', function($row){
+                        if($row->email_verified_at  != null){
+                            $btn =' <a href="'.route('user.get.unverified',['id'=>Crypt::encrypt($row->id)]) .'"
+                                    class="btn btn-xs btn-success">
+                                    <b> Verified </b>
+                                    </a>';
+                        }else{
+                            $btn ='<a href="'.route('user.get.verified',['id'=>Crypt::encrypt($row->id)]) .'"
+                                class="btn btn-xs btn-danger">
+                                <b>NotVerified</b>
+                                </a>';
+                        }
+                        return $btn;
+                       })
+                    ->addColumn('status', function($row){
+                     $btn = '<div class="btn-group">
+                                <button type="button" class="btn btn-primary btn-xs"><b>Active</b></button>
+                                <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon btn-xs" data-toggle="dropdown">
+                                </button>
+                                <div class="dropdown-menu" role="menu">
+                                <a class="dropdown-item" href="#">Active</a>
+                                <a class="dropdown-item" href="#">InActive</a>
+                                <a class="dropdown-item" href="#">Pending</a>
+                                </div>
+                          </div>';
+                        return $btn;
                     })
-                    ->rawColumns(['action'])
+                    ->addColumn('action', function($row){
+                        $btn = '<div class="btn-group btn-group-sm">';
+                        //@can('user-show')
+                        $btn = $btn.' <a class="btn btn-info" data-toggle="modal" data-target="#view-user'.$row->id.'" title="View" ><i class="fas fa-eye"></i></a>';
+                        //@endcan
+
+                        //@can('user-edit')
+                        $btn = $btn.' <a class="btn btn-primary" data-toggle="modal" data-target="#edit-user'.$row->id.'" title="Edit"><i class="fas fa-edit"></i></a>';
+                        //@endcan
+
+                        $btn = $btn.'<a href="'.route('user.get.delete',['id'=>Crypt::encrypt($row->id)]).'" class="btn btn-danger " onclick="return myFunction()" title="Delete" ><i class="fas fa-trash"></i></a>';
+                        $btn = $btn.'</div>';
+                        return $btn;
+                    })
+                
+                    ->rawColumns(['email_verified_at','status','action'])
                     ->make(true);
         }
-        
-        return view('admin.pages.users.index');
+        return view('admin.pages.users.index', compact('data'));
 
-        // $Users = User::latest()->get();
+        // 
         // return view('admin.pages.users.index',['Users'=>$Users]);
       
     }
+
     public function show($id)
     {
         try {

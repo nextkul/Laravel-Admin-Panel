@@ -1,0 +1,7 @@
+.card-body{
+    overflow: auto !important;
+}
+.model-fh{
+    height: 439px;
+    overflow: auto;
+  }
