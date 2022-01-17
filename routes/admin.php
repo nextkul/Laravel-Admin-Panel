@@ -21,6 +21,10 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin','middleware' => ['auth'
     Route::get('dashboard', function () {
         return view('admin.welcome');
     })->name('admin.get.dashboard');
+    Route::get('single-page', function () {
+        return view('iframe');
+    })->name('single-page');
+    
     
     /* -------------------User----------- */
     Route::prefix('users')->group(function () {
@@ -30,10 +34,10 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin','middleware' => ['auth'
         Route::get('delete/{id}', 'User\UserController@destroy')->name('user.get.delete');
         Route::get('active/{id}', 'User\UserController@activeUser')->name('user.get.active');
         Route::get('inactive/{id}', 'User\UserController@deactiveUser')->name('user.get.inactive');
+        Route::get('pending/{id}', 'User\UserController@pendingUser')->name('user.get.pending');
         Route::get('edit/{id}', 'User\UserController@edit')->name('user.get.edit');
         Route::post('update', 'User\UserController@update')->name('user.post.update');
         //Unverified Users
-        Route::get('unverified-users', 'User\UserController@getUsers')->name('user.get.unverified-users'); 
         Route::get('verified/{id}', 'User\UserController@verifiedUser')->name('user.get.verified');
         Route::get('unverified/{id}', 'User\UserController@unverifiedUser')->name('user.get.unverified');
     });

@@ -4,13 +4,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0"> @yield('breadcrumb')</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item">
-              <a href="{{ route('admin.get.dashboard') }}">Home</a> /                
-              @for($i = 2; $i <= count(Request::segments()); $i++)
+              <a href="/">Home</a> >                
+              @for($i = 1; $i <= count(Request::segments()); $i++)
                 @if($i < count(Request::segments()) & $i > 0)
                 <?php $link .= "/" . Request::segment($i); ?>
                 <a href="#">{{ ucwords(str_replace('-',' ',Request::segment($i)))}}</a> /

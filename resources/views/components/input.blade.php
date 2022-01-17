@@ -1,6 +1,6 @@
 <div class="mb-2">
     <div class="input-group">
-        <input type="{{$type}}" class="form-control" placeholder="{{$placeholder}}" name="{{$name}}" value="{{ old($name) }}" required>
+        <input type="{{$type}}" class="form-control" placeholder="{{$placeholder}}" name="{{$name}}" value="{{old('$name', $value)}}" required>
         <div class="input-group-append">
             <div class="input-group-text">
                 <span class="{{$class}}"></span>

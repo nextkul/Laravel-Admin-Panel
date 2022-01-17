@@ -54,13 +54,14 @@
                   <p>All User</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fas fa-angle-double-right nav-icon"></i>
-                  <p>Add User</p>
-                </a>
-              </li>
             </ul>
+          </li>
+          <li class="nav-header">SINGLE PAGES</li>
+          <li class="nav-item menu-open">
+            <a href="{{ route('single-page') }}" class="nav-link {{ Request::is('admin/single-page') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p> Single Page </p>
+            </a>
           </li>
          
         </ul>

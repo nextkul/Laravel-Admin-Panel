@@ -6,8 +6,6 @@
   <title>@yield('title') | {{ config('settings.site.app.appname') }}</title>
   <!-- Include core + vendor Styles  -->
     @include('admin.include.styles')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -16,12 +14,10 @@
   <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="{{ asset('admin/dist/img/nk-admin.png') }}" alt="AdminLTELogo" height="60" width="60">
   </div>
-    <x:notify-messages />
      @include('admin.include.header') 
      @include('admin.include.sidebar') 
      <!-- Content Wrapper. Contains page content -->
      <div class="content-wrapper">
-     
         @include('admin.include.breadcrumb') 
 
            @yield('content')       <!--Include Startkit Content-->

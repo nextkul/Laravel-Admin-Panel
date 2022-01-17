@@ -32,16 +32,41 @@ class UserController extends Controller
                         return $btn;
                        })
                     ->addColumn('status', function($row){
-                     $btn = '<div class="btn-group">
-                                <button type="button" class="btn btn-primary btn-xs"><b>Active</b></button>
-                                <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon btn-xs" data-toggle="dropdown">
+                      if($row->status=='active'){
+                        $btn = '<div class="btn-group">
+                                    <button type="button" class="btn btn-primary btn-xs"><b>Active</b></button>
+                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon btn-xs" data-toggle="dropdown">
+                                    </button>
+                                    <div class="dropdown-menu" role="menu">
+                                    <a class="dropdown-item" href="'.route('user.get.active',['id'=>Crypt::encrypt($row->id)]) .'">Active</a>
+                                    <a class="dropdown-item" href="'.route('user.get.inactive',['id'=>Crypt::encrypt($row->id)]) .'">Deactive</a>
+                                    <a class="dropdown-item" href="'.route('user.get.pending',['id'=>Crypt::encrypt($row->id)]) .'">Pending</a>
+                                    </div>
+                            </div>';
+                       } elseif($row->status=='deactive') {
+                         $btn = '<div class="btn-group">
+                                    <button type="button" class="btn btn-danger btn-xs"><b>Dactive</b></button>
+                                    <button type="button" class="btn btn-danger dropdown-toggle dropdown-icon btn-xs" data-toggle="dropdown">
+                                    </button>
+                                    <div class="dropdown-menu" role="menu">
+                                    <a class="dropdown-item" href="'.route('user.get.active',['id'=>Crypt::encrypt($row->id)]) .'">Active</a>
+                                    <a class="dropdown-item" href="'.route('user.get.inactive',['id'=>Crypt::encrypt($row->id)]) .'">Deactive</a>
+                                    <a class="dropdown-item" href="'.route('user.get.pending',['id'=>Crypt::encrypt($row->id)]) .'">Pending</a>
+                                    </div>
+                                </div>';
+                       } else{
+                        $btn = '<div class="btn-group">
+                                <button type="button" class="btn btn-warning btn-xs"><b>Pending</b></button>
+                                <button type="button" class="btn btn-warning dropdown-toggle dropdown-icon btn-xs" data-toggle="dropdown">
                                 </button>
                                 <div class="dropdown-menu" role="menu">
-                                <a class="dropdown-item" href="#">Active</a>
-                                <a class="dropdown-item" href="#">InActive</a>
-                                <a class="dropdown-item" href="#">Pending</a>
+                                <a class="dropdown-item" href="'.route('user.get.active',['id'=>Crypt::encrypt($row->id)]) .'">Active</a>
+                                <a class="dropdown-item" href="'.route('user.get.inactive',['id'=>Crypt::encrypt($row->id)]) .'">Deactive</a>
+                                <a class="dropdown-item" href="'.route('user.get.pending',['id'=>Crypt::encrypt($row->id)]) .'">Pending</a>
                                 </div>
-                          </div>';
+                            </div>';
+                       } 
+
                         return $btn;
                     })
                     ->addColumn('action', function($row){
@@ -66,24 +91,6 @@ class UserController extends Controller
 
         // 
         // return view('admin.pages.users.index',['Users'=>$Users]);
-      
-    }
-
-    public function show($id)
-    {
-        try {
-            $decrypted = Crypt::decrypt($id);
-            $SpecificUser = User::where('id',$decrypted)->first();
-
-            /* Fetch all the friends request sent by the user */
-            $getFriends = FriendRequest::where('sender_id',$decrypted)->with('receiver')->get();
-            $getCloserRequestCount = CloserRequestCount::where('sender_id',$decrypted)->get();
-            return view('admin.users.show',['SpecificUser'=>$SpecificUser,'getFriends' => $getFriends,'getCloserRequestCount'=>$getCloserRequestCount]);
-        } catch (\Exception $e) {
-            smilify('error', 'Something went wrong!!🙁 Please Try again.');
-            return redirect()->back();
-        }
-       
     }
      public function create(Request $request)
     {
@@ -209,7 +216,7 @@ class UserController extends Controller
         try {
             $decrypted  = Crypt::decrypt($id);
             $activeUser = User::haveId($decrypted)->update([
-                'active' =>1
+                'status' => 'active'
             ]);
             if($activeUser){
                 smilify('success', 'User activated Successfully 😊');
@@ -237,7 +244,7 @@ class UserController extends Controller
         try {
             $decrypted      = Crypt::decrypt($id);
             $deactiveUser   = User::haveId($decrypted)->update([
-                'active' =>0
+                'status' => 'deactive'
             ]);
             if($deactiveUser){
                 smilify('success', 'User deactivated Successfully');
@@ -254,13 +261,29 @@ class UserController extends Controller
         }
     }
 
-    /*-----------Unverified Users-----------*/
-    public function getUsers()
+    public function pendingUser($id)
     {
-        $unverifiedUsers = User::latest()->get();
-        return view('admin.users.unverified',['unverifiedUsers'=>$unverifiedUsers]);
-      
+        try {
+            $decrypted      = Crypt::decrypt($id);
+            $pendingUser   = User::haveId($decrypted)->update([
+                'status' => 'pending'
+            ]);
+            if($pendingUser){
+                smilify('success', 'User Pendding Updated Successfully');
+                return redirect()->back();
+            } else {
+                connectify('error', 'Ooops 🙁', 'Something went wrong');
+                return redirect()->back();
+            }
+           
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            
+            connectify('error', 'Ooops 🙁', $e->getMessage());
+            return redirect()->back();
+        }
     }
+
+    /*-----------Unverified Users-----------*/
         public function verifiedUser($id)
     {
         try {

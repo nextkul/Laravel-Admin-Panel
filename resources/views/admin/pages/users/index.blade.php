@@ -1,5 +1,6 @@
 @extends('admin.layouts.admin-app')
-@section('title',__('Dashboard'))
+@section('title',__('All User'))
+@section('breadcrumb',__('All User'))
 {{-- Page js files --}}
 @push('page-style')
  <!-- DataTables -->
@@ -20,7 +21,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="example1" class="table table-bordered table-striped" style="width:100%">
                   <thead>
                   <tr>
                     <th>No.</th>
@@ -76,6 +77,8 @@
       @endforeach
         <!-- ========Edit User========== -->
     @foreach ($data as $item)
+    <form action="{{ route('user.get.create') }}" method="POST">
+      @csrf
     <div class="modal fade outer-click-dissabled" id="edit-user{{$item->id}}" >
         <div class="modal-dialog ">
           <div class="modal-content">
@@ -86,13 +89,13 @@
               </button>
             </div>
             <div class="modal-body model-fh">
-            <x-input type="email" name="email" placeholder="{{ $item->email }}" class="fas fa-user" />
-           <x-input type="password" name="password" placeholder="Enter Password" class="fas fa-lock" />
+            <x-input type="email" name="email" placeholder="Enter email" class="fas fa-user" value="{{ $item->name }}"/>
+           <x-input type="text" name="password" placeholder="Enter Password" class="fas fa-lock" value="{{ $item->email }}" />
 
            </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save</button>
+              <button type="submit" class="btn btn-primary">Save</button>
             </div>
           </div>
           <!-- /.modal-content -->
@@ -100,7 +103,8 @@
         <!-- /.modal-dialog -->
       </div>
       <!-- /.modal -->
-      @endforeach
+</form>
+ @endforeach
 @endsection
 {{-- Page js files --}}
 @push('page-script')
