@@ -42,7 +42,9 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin','middleware' => ['auth'
         Route::get('unverified/{id}', 'User\UserController@unverifiedUser')->name('user.get.unverified');
     });
 
-
+  
 
 });
 require __DIR__.'/auth.php';
+
+Route::get('humanTiming', 'Admin\User\UserController@humanTiming');

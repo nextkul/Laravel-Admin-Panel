@@ -1,0 +1,147 @@
+controller
+===========================================
+
+     public function index(){
+      return view('autosearch');
+   }
+
+   /*
+   AJAX request
+   */
+   public function getUser(Request $request)
+   {
+
+    if($request->get('query'))
+     {
+      $query = $request->get('query');
+      $data = DB::table('users')
+        ->where('name', 'LIKE', "%{$query}%")
+        ->get();
+      $output = '<ul class="dropdown-menu" style="display:block; position:relative">';
+      foreach($data as $row)
+      {
+       $output .= '<li class="data_id-'.$row->id.'"><a href="#">'.$row->name.'</a></li>';
+      }
+      $output .= '</ul>';
+      echo $output;
+     }
+   }
+
+   public function getSingleUser(Request $request)
+   {
+
+    if($request->get('dataId'))
+     {
+      $dataId = $request->get('dataId');
+      $data = DB::table('users')
+        ->where('id', $dataId )
+        ->first();
+      return $data;
+     }
+   }
+
+
+
+
+
+
+
+
+
+
+
+View autosearch.blade.php
+===========================================
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Laravel Autocomplete using Jquery</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style type="text/css">
+   .box{
+    width:600px;
+    margin:0 auto;
+   }
+  </style>
+ </head>
+ <body>
+  <br />
+  <div class="container box">
+   <h3 align="center">Laravel Autocomplete using Jquery</h3><br />
+   
+   <div class="form-group">
+    <input type="text" name="category_name" id="category_name" class="form-control input-lg" placeholder="Enter  Name" />
+        <input type="text" name="email" id="email" class="form-control input-lg" placeholder="Enter email" />
+    <div id="categoryList">
+    </div>
+   </div>
+   {{ csrf_field() }}
+  </div>
+  <script>
+$(document).ready(function(){
+
+ $('#category_name').keyup(function(){ 
+        var query = $(this).val();
+        if(query != '')
+        {
+         var _token = $('input[name="_token"]').val();
+         $.ajax({
+          url:"{{ url('user/getUser/') }}",
+          method:"POST",
+          data:{query:query, _token:_token},
+          success:function(data){
+           $('#categoryList').fadeIn();  
+              $('#categoryList').html(data);
+              $('#email').val('');  
+          }
+         });
+        }
+    });
+
+    $(document).on('click', 'li', function(){ 
+
+      var aa = $(this).attr('class');
+
+      var aaa = aa.split("-");
+
+      var dataId = aaa[1];
+      //console.log(dataId);
+
+      if(dataId != '')
+        {
+         var _token = $('input[name="_token"]').val();
+         $.ajax({
+          url:"{{ url('user/getSingleUser/') }}",
+          method:"POST",
+          dataType: 'json',
+          data:{dataId:dataId, _token:_token},
+          success:function(data){
+            
+           // console.log(data.name);
+            //console.log(data.name);
+            $('#category_name').val(data.name); 
+            $('#email').val(data.email);  
+            $('#categoryList').fadeOut();  
+      
+          }
+         });
+        }
+    });  
+
+});
+</script>
+ </body>
+</html>
+
+
+
+Route
+==========================================
+
+Route::view('add-user' , 'add-user')->name('add.user');
+
+Route::get('/user',[HomeController::class, 'index']);
+Route::post('user/getUser/',[HomeController::class, 'getUser'])->name('user.getUser');
+Route::post('user/getSingleUser/',[HomeController::class, 'getSingleUser'])->name('user.getUser');

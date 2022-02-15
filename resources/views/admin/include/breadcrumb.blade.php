@@ -9,8 +9,8 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item">
-              <a href="/">Home</a> >                
-              @for($i = 1; $i <= count(Request::segments()); $i++)
+              <a href="{{ route('admin.get.dashboard') }}">Home</a> /               
+              @for($i = 2; $i <= count(Request::segments()); $i++)
                 @if($i < count(Request::segments()) & $i > 0)
                 <?php $link .= "/" . Request::segment($i); ?>
                 <a href="#">{{ ucwords(str_replace('-',' ',Request::segment($i)))}}</a> /
